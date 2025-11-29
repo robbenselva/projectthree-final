@@ -1,0 +1,258 @@
+Started by GitHub push by robbenselva
+Obtained Jenkinsfile from git https://github.com/robbenselva/projectthree-final.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/finalproject
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git
+using credential github
+Cloning the remote Git repository
+Cloning repository https://github.com/robbenselva/projectthree-final.git
+ > git init /var/lib/jenkins/workspace/finalproject # timeout=10
+Fetching upstream changes from https://github.com/robbenselva/projectthree-final.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/robbenselva/projectthree-final.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/robbenselva/projectthree-final.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision e07bc8150c96d51132291ff9c5dfb97e4ea2116b (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f e07bc8150c96d51132291ff9c5dfb97e4ea2116b # timeout=10
+Commit message: "last"
+ > git rev-list --no-walk 46d9926e28544ada02d70d88e840b0064676c404 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKERHUB_CREDENTIALS or $DOCKERHUB_CREDENTIALS_PSW
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+The recommended git tool is: git
+using credential github
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/finalproject/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/robbenselva/projectthree-final.git # timeout=10
+Fetching upstream changes from https://github.com/robbenselva/projectthree-final.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/robbenselva/projectthree-final.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision e07bc8150c96d51132291ff9c5dfb97e4ea2116b (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f e07bc8150c96d51132291ff9c5dfb97e4ea2116b # timeout=10
+Commit message: "last"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Building Docker image...
+[Pipeline] sh
++ docker build -t robbenselvaone/project2-dev:7 .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  18.37MB
+Step 1/6 : FROM nginx:alpine
+ ---> d4918ca78576
+Step 2/6 : RUN rm -rf /usr/share/nginx/html/*
+ ---> Using cache
+ ---> 6a13484273f9
+Step 3/6 : COPY dist/ /usr/share/nginx/html/
+ ---> Using cache
+ ---> 6348c6ac6355
+Step 4/6 : COPY nginx.conf /etc/nginx/conf.d/default.conf
+ ---> Using cache
+ ---> 1c325f418cae
+Step 5/6 : EXPOSE 3000
+ ---> Using cache
+ ---> f96649b9c243
+Step 6/6 : CMD ["nginx", "-g", "daemon off;"]
+ ---> Using cache
+ ---> 59c450407963
+Successfully built 59c450407963
+Successfully tagged robbenselvaone/project2-dev:7
++ docker tag robbenselvaone/project2-dev:7 robbenselvaone/project2-dev:latest
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push to DockerHub)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Pushing image to DockerHub...
+[Pipeline] sh
++ echo ****
++ docker login -u robbenselvaone --password-stdin
+
+WARNING! Your credentials are stored unencrypted in '/var/lib/jenkins/.docker/config.json'.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/go/credential-store/
+
+Login Succeeded
++ docker push robbenselvaone/project2-dev:7
+The push refers to repository [docker.io/robbenselvaone/project2-dev]
+b95c71134f80: Preparing
+29e1ea2e4c44: Preparing
+1b48aaa88e12: Preparing
+25906c27b84d: Preparing
+99ea4bde418d: Preparing
+3297b9628ff3: Preparing
+b74d92be8225: Preparing
+2c79d5d895bb: Preparing
+2660a7d4b906: Preparing
+50b58ca2a3f5: Preparing
+256f393e029f: Preparing
+b74d92be8225: Waiting
+2c79d5d895bb: Waiting
+2660a7d4b906: Waiting
+50b58ca2a3f5: Waiting
+256f393e029f: Waiting
+3297b9628ff3: Waiting
+99ea4bde418d: Layer already exists
+1b48aaa88e12: Layer already exists
+b95c71134f80: Layer already exists
+25906c27b84d: Layer already exists
+29e1ea2e4c44: Layer already exists
+b74d92be8225: Layer already exists
+2c79d5d895bb: Layer already exists
+2660a7d4b906: Layer already exists
+3297b9628ff3: Layer already exists
+50b58ca2a3f5: Layer already exists
+256f393e029f: Layer already exists
+7: digest: sha256:46f23af3be25ea135593f1d58f286a0e7e3630fec9836882547cd74dcff1272a size: 2614
++ docker push robbenselvaone/project2-dev:latest
+The push refers to repository [docker.io/robbenselvaone/project2-dev]
+b95c71134f80: Preparing
+29e1ea2e4c44: Preparing
+1b48aaa88e12: Preparing
+25906c27b84d: Preparing
+99ea4bde418d: Preparing
+3297b9628ff3: Preparing
+b74d92be8225: Preparing
+2c79d5d895bb: Preparing
+2660a7d4b906: Preparing
+50b58ca2a3f5: Preparing
+256f393e029f: Preparing
+3297b9628ff3: Waiting
+b74d92be8225: Waiting
+2c79d5d895bb: Waiting
+2660a7d4b906: Waiting
+50b58ca2a3f5: Waiting
+256f393e029f: Waiting
+29e1ea2e4c44: Layer already exists
+1b48aaa88e12: Layer already exists
+b95c71134f80: Layer already exists
+99ea4bde418d: Layer already exists
+25906c27b84d: Layer already exists
+3297b9628ff3: Layer already exists
+b74d92be8225: Layer already exists
+2660a7d4b906: Layer already exists
+50b58ca2a3f5: Layer already exists
+2c79d5d895bb: Layer already exists
+256f393e029f: Layer already exists
+latest: digest: sha256:46f23af3be25ea135593f1d58f286a0e7e3630fec9836882547cd74dcff1272a size: 2614
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Update Kubernetes Deployment)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Updating deployment.yml with new image...
+[Pipeline] sh
++ sed -i s|image:.*|image: robbenselvaone/project2-dev:7|g deployment.yml
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Configure kubectl for EKS)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Configuring kubectl for EKS cluster...
+[Pipeline] withCredentials
+Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[Pipeline] {
+[Pipeline] sh
++ aws eks update-kubeconfig --region ap-south-1 --name jenkinsproject --kubeconfig /tmp/kubeconfig
+Updated context arn:aws:eks:ap-south-1:966605441979:cluster/jenkinsproject in /tmp/kubeconfig
++ export KUBECONFIG=/tmp/kubeconfig
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to EKS)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Deploying to EKS cluster...
+[Pipeline] withCredentials
+Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[Pipeline] {
+[Pipeline] sh
++ export KUBECONFIG=/tmp/kubeconfig
++ kubectl apply -f deployment.yml
+deployment.apps/jenkins configured
++ kubectl apply -f service.yml
+service/jenkins-container unchanged
++ kubectl apply -f prometheus-standalone.yml
+namespace/monitoring created
+configmap/prometheus-config created
+serviceaccount/prometheus created
+clusterrole.rbac.authorization.k8s.io/prometheus created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus created
+deployment.apps/prometheus created
+service/prometheus created
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] sh
++ docker logout
+Removing login credentials for https://index.docker.io/v1/
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] echo
+Pipeline executed successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
