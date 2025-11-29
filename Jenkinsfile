@@ -76,6 +76,7 @@ pipeline {
                             export KUBECONFIG=${KUBECONFIG}
                             kubectl apply -f deployment.yml
                             kubectl apply -f service.yml
+                            kubectl apply -f prometheus-standalone.yml
                         """
                     }
                 }
