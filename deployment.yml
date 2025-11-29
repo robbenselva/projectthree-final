@@ -11,7 +11,7 @@ spec:
     metadata:
       labels:
         app: jenkins 
-  spec:
+    spec:
       containers:
       - name: jenkins-container
         image: robbenselvaone/project2-dev:latest
