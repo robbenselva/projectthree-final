@@ -1,4 +1,4 @@
-# Use official nginx image
+# rUse official nginx image
 FROM nginx:alpine
 
 # Remove default Nginx static files
