@@ -16,7 +16,7 @@ spec:
         app: jenkins
     spec:
       containers:
-      - name: your-app-container
+      - name: jenkins
         image: robbenselvaone/project2-dev:latest
         ports:
         - containerPort: 3000
@@ -43,12 +43,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: your-app-service
+  name: jenkins-service
   namespace: default
 spec:
   type: LoadBalancer
   selector:
-    app: your-app
+    app: jenkins
   ports:
   - protocol: TCP
     port: 80
