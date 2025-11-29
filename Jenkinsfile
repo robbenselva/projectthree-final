@@ -75,7 +75,7 @@ pipeline {
                         sh """
                             export KUBECONFIG=${KUBECONFIG}
                             kubectl apply -f deployment.yml
-                            kubectl rollout status deployment/jenkins -n default
+                            kubectl apply -f service.yml
                         """
                     }
                 }
